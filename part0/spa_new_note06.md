@@ -10,5 +10,5 @@ sequenceDiagram
     server-->>browser: responds with status code 201
     deactivate server
 
-    Note: browser stays no the same page
+    Note right of browser: browser stays no the same page
 ```
