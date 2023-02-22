@@ -4,6 +4,10 @@ const random = (n) => {
   return Math.floor(Math.random() * n);
 };
 
+const Button = (props) => {
+  return <button onClick={props.f}>{props.text}</button>;
+};
+
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -16,14 +20,26 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
+  const points = Array(anecdotes.length).fill(0);
+
   const [selected, setSelected] = useState(0);
+  const [copy, setCopy] = useState([...points]);
 
   return (
     <>
       <div>{anecdotes[selected]}</div>
-      <button onClick={() => setSelected(random(anecdotes.length))}>
-        next anecdote
-      </button>
+      <p>has {copy[selected]} votes</p>
+      <Button
+        f={() => setSelected(random(anecdotes.length))}
+        text="next anecdote"
+      />
+      <Button
+        f={() => {
+          copy[selected]++;
+          setCopy([...copy]);
+        }}
+        text="vote"
+      />
     </>
   );
 };
