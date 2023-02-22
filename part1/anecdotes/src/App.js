@@ -25,8 +25,18 @@ const App = () => {
   const [selected, setSelected] = useState(0);
   const [copy, setCopy] = useState([...points]);
 
+  const findMostVoted = () => {
+    let max = Math.max(...copy);
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i] === max) {
+        return anecdotes[i];
+      }
+    }
+  };
+
   return (
     <>
+      <h2>Anecdote of the day</h2>
       <div>{anecdotes[selected]}</div>
       <p>has {copy[selected]} votes</p>
       <Button
@@ -40,6 +50,9 @@ const App = () => {
         }}
         text="vote"
       />
+      <h2>Anecdote with most votes</h2>
+      <div>{findMostVoted()}</div>
+      <p>has {Math.max(...copy)} votes</p>
     </>
   );
 };
