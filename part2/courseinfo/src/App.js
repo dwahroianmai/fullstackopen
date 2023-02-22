@@ -2,8 +2,8 @@ const Header = (props) => {
   return <h1>{props.course}</h1>;
 };
 
-const Total = (props) => {
-  return <p>Number of exercises {props.sumOfExercises}</p>;
+const Total = ({ exercises }) => {
+  return <p>total of {exercises.reduce((a, b) => a + b, 0)}</p>;
 };
 
 const Part = (props) => {
@@ -29,6 +29,7 @@ const Course = ({ course }) => {
     <>
       <Header course={course.name} />
       <Content parts={course.parts} />
+      <Total exercises={course.parts.map((part) => part.exercises)} />
     </>
   );
 };
@@ -52,6 +53,11 @@ const App = () => {
         name: "State of a component",
         exercises: 14,
         id: 3,
+      },
+      {
+        name: "test",
+        exercises: 20,
+        id: 4,
       },
     ],
   };
