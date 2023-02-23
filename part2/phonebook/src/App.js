@@ -3,6 +3,7 @@ import axios from "axios";
 import Search from "./components/Search";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import services from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -13,9 +14,7 @@ const App = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => setPersons(response.data));
+    services.getContacts().then((people) => setPersons(people));
   }, []);
 
   console.log(persons);
@@ -55,9 +54,9 @@ const App = () => {
       }
     }
 
-    axios
-      .post("http://localhost:3001/persons", contact)
-      .then((response) => setPersons(persons.concat(response.data)));
+    services
+      .newContact(contact)
+      .then((person) => setPersons(persons.concat(person)));
 
     setNewName("");
     setNewNumber("");
