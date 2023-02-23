@@ -43,7 +43,7 @@ const App = () => {
     const contact = {
       name: newName,
       number: newNumber,
-      id: newName,
+      id: persons.length + 1,
     };
 
     for (let i = 0; i < persons.length; i++) {
@@ -54,7 +54,11 @@ const App = () => {
         return;
       }
     }
-    setPersons(persons.concat(contact));
+
+    axios
+      .post("http://localhost:3001/persons", contact)
+      .then((response) => setPersons(persons.concat(response.data)));
+
     setNewName("");
     setNewNumber("");
   };
