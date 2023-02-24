@@ -12,4 +12,10 @@ const newContact = (contact) => {
   return request.then((response) => response.data);
 };
 
-export default { getContacts, newContact };
+const deletePerson = (id) => {
+  axios.delete(`${baseUrl}/${id}`);
+};
+
+const services = { getContacts, newContact, deletePerson };
+
+export default services;

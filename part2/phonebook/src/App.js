@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Search from "./components/Search";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import services from "./services/persons";
+import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -62,6 +62,14 @@ const App = () => {
     setNewNumber("");
   };
 
+  const removePerson = (name, id) => {
+    if (window.confirm(`Delete ${name} from phonebook?`)) {
+      axios
+        .delete(`http://localhost:3001/persons/${id}`)
+        .then(() => setPersons(persons.filter((person) => person.id !== id)));
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -75,7 +83,7 @@ const App = () => {
         click={addNewContact}
       />
       <h2>Numbers</h2>
-      <Persons people={contactsToShow} />
+      <Persons people={contactsToShow} f={removePerson} />
     </div>
   );
 };

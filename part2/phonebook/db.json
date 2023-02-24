@@ -1,29 +1,19 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
+      "name": "Pedro Pascal",
+      "number": "432-4324-234",
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "name": "Friend",
+      "number": "3213-2313-333",
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
+      "name": "Thomas",
+      "number": "34-2424-3424",
       "id": 4
-    },
-    {
-      "name": "Pedro Pascal",
-      "number": "32-56-2365433",
-      "id": 5
     }
   ]
 }
