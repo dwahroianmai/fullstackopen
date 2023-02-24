@@ -1,5 +1,3 @@
-import services from "../services/persons";
-
 const Persons = ({ people, f }) => {
   return (
     <table>

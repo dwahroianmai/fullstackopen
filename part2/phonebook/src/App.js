@@ -17,8 +17,6 @@ const App = () => {
     services.getContacts().then((people) => setPersons(people));
   }, []);
 
-  console.log(persons);
-
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -47,7 +45,22 @@ const App = () => {
 
     for (let i = 0; i < persons.length; i++) {
       if (persons[i].name === contact.name) {
-        alert(`${newName} is already added to phonebook`);
+        if (
+          window.confirm(
+            `${newName} is already added to phonebook, replace the old number with a new one?`
+          )
+        ) {
+          contact.id = persons[i].id;
+          axios
+            .put(`http://localhost:3001/persons/${persons[i].id}`, contact)
+            .then((response) =>
+              setPersons(
+                persons.map((person) =>
+                  person.id !== response.data.id ? person : response.data
+                )
+              )
+            );
+        }
         setNewName("");
         setNewNumber("");
         return;
