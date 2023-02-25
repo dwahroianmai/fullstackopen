@@ -1,24 +1,9 @@
 {
   "persons": [
     {
-      "name": "Pedro Pascal",
-      "number": "12-34-567",
+      "name": "Harry ",
+      "number": "1223-323-12",
       "id": 1
-    },
-    {
-      "name": "Friend",
-      "number": "12-23-4324-2",
-      "id": 2
-    },
-    {
-      "name": "Thomas",
-      "number": "123-45-678",
-      "id": 3
-    },
-    {
-      "name": "Diana",
-      "number": "2343-423423-4234",
-      "id": 4
     }
   ]
 }

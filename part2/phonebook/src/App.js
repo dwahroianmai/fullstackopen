@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Search from "./components/Search";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import Notification from "./components/Notifications";
+import notify from "./components/Notifications";
 import services from "./services/persons";
 import axios from "axios";
 import "./styles.css";
@@ -15,6 +15,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
   const [addedNotify, setAddedNotify] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     services.getContacts().then((people) => setPersons(people));
@@ -56,16 +57,26 @@ const App = () => {
           contact.id = persons[i].id;
           axios
             .put(`http://localhost:3001/persons/${persons[i].id}`, contact)
-            .then((response) =>
+            .then((response) => {
               setPersons(
                 persons.map((person) =>
                   person.id !== response.data.id ? person : response.data
                 )
-              )
-            );
-          setAddedNotify(`${contact.name}'s number was changed successfully.`);
+              );
+              setAddedNotify(
+                `${contact.name}'s number was changed successfully.`
+              );
+              setTimeout(() => {
+                setAddedNotify(null);
+              }, 5000);
+            })
+            .catch(() => {
+              setError(
+                `${contact.name} was already removed from your phonebook, please refresh the page.`
+              );
+            });
           setTimeout(() => {
-            setAddedNotify(null);
+            setError(null);
           }, 5000);
         }
         setNewName("");
@@ -103,7 +114,8 @@ const App = () => {
       <h2>Phonebook</h2>
       <Search val={search} onchange={handleSearch} />
       <h2>add a new contact</h2>
-      <Notification text={addedNotify} />
+      <notify.Notification text={addedNotify} />
+      <notify.Error text={error} />
       <PersonForm
         nameVal={newName}
         nameChange={handleNameChange}

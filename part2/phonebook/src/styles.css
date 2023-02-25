@@ -4,9 +4,17 @@
   align-items: center;
 }
 
-.notification {
+.notification,
+.error {
   padding: 10px;
-  border: 2px solid green;
   border-radius: 12px;
   margin: 10px;
+}
+
+.notification {
+  border: 2px solid green;
+}
+
+.error {
+  border: 2px solid red;
 }
