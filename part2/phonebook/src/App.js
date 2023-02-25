@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import Search from "./components/Search";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notifications";
 import services from "./services/persons";
 import axios from "axios";
+import "./styles.css";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -12,6 +14,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
+  const [addedNotify, setAddedNotify] = useState(null);
 
   useEffect(() => {
     services.getContacts().then((people) => setPersons(people));
@@ -60,6 +63,10 @@ const App = () => {
                 )
               )
             );
+          setAddedNotify(`${contact.name}'s number was changed successfully.`);
+          setTimeout(() => {
+            setAddedNotify(null);
+          }, 5000);
         }
         setNewName("");
         setNewNumber("");
@@ -71,6 +78,10 @@ const App = () => {
       .newContact(contact)
       .then((person) => setPersons(persons.concat(person)));
 
+    setAddedNotify(`${contact.name} was added to the phonebook.`);
+    setTimeout(() => {
+      setAddedNotify(null);
+    }, 5000);
     setNewName("");
     setNewNumber("");
   };
@@ -81,6 +92,10 @@ const App = () => {
         .delete(`http://localhost:3001/persons/${id}`)
         .then(() => setPersons(persons.filter((person) => person.id !== id)));
     }
+    setAddedNotify(`${name} was deleted from your phonebook.`);
+    setTimeout(() => {
+      setAddedNotify(null);
+    }, 5000);
   };
 
   return (
@@ -88,6 +103,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Search val={search} onchange={handleSearch} />
       <h2>add a new contact</h2>
+      <Notification text={addedNotify} />
       <PersonForm
         nameVal={newName}
         nameChange={handleNameChange}

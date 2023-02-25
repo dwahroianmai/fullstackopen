@@ -1,0 +1,12 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notification {
+  padding: 10px;
+  border: 2px solid green;
+  border-radius: 12px;
+  margin: 10px;
+}
