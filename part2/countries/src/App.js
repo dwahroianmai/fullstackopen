@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./styles.css";
 
 const Countries = ({ found }) => {
   if (found.length === 1) {
     return <div></div>;
   }
   return (
-    <div>
+    <div className="countries">
       {found.map((found, index) => (
-        <p key={index}>{found.name.common}</p>
+        <div className="country">
+          <p key={index}>{found.name.common}</p>
+          <button type="submit">show</button>
+        </div>
       ))}
     </div>
   );
