@@ -2,18 +2,22 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
 
-const Countries = ({ found }) => {
-  if (found.length === 1) {
-    return <div></div>;
-  }
+const Countries = ({ found, show, click }) => {
   return (
     <div className="countries">
-      {found.map((found, index) => (
-        <div className="country">
-          <p key={index}>{found.name.common}</p>
-          <button type="submit">show</button>
-        </div>
-      ))}
+      {found.map((found, index) => {
+        return (
+          <div>
+            <div className="country">
+              <p key={index}>{found.name.common}</p>
+              <button type="submit" onClick={() => click(index)}>
+                {show[index] ? "hide" : "show"}
+              </button>
+            </div>
+            <Info country={found} show={show[index]} />
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -26,22 +30,24 @@ const Hint = ({ text }) => {
 };
 
 const Info = ({ country, show }) => {
-  if (!show || country.length !== 1) {
-    return <div></div>;
+  console.log(show);
+  if (!show) {
+    return null;
   }
   console.log(country);
   return (
     <div>
-      <h1>{country[0].name.common}</h1>
-      <p>capital {country[0].capital}</p>
-      <p>area {country[0].area}</p>
+      <h1>{country.name.common}</h1>
+      <p>capital {country.capital}</p>
+      <p>area {country.area}</p>
       <h2>languages: </h2>
       <ul>
-        {Object.keys(country[0].languages).map((key) => (
-          <li key={country[0].name.common}>{country[0].languages[key]}</li>
-        ))}
+        {typeof country.languages === "object" &&
+          Object.values(country.languages).map((val, index) => (
+            <li key={index}>{val}</li>
+          ))}
       </ul>
-      <img src={country[0].flags.png} alt="flag"></img>
+      <img src={country.flags.png} alt="flag"></img>
     </div>
   );
 };
@@ -51,7 +57,12 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [found, setFound] = useState([]);
   const [hint, setHint] = useState(null);
-  const [showInfo, setShowInfo] = useState(false);
+  const [shown, setShown] = useState({});
+
+  const toggleShown = (index) => {
+    setShown((before) => ({ ...before, [index]: !before[index] }));
+    console.log(shown[index]);
+  };
 
   useEffect(() => {
     axios
@@ -68,7 +79,6 @@ const App = () => {
         country.name.common.toLowerCase().includes(search.toLowerCase())
       )
     );
-    setShowInfo(true);
     if (found.length > 1) {
       setHint("please enter country's full name");
     } else {
@@ -81,8 +91,7 @@ const App = () => {
       start typing to find the country:
       <input value={search} onChange={handleSearch} />
       <Hint text={hint} />
-      <Countries found={found} />
-      <Info country={found} show={showInfo} />
+      <Countries found={found} show={shown} click={toggleShown} />
     </div>
   );
 };
