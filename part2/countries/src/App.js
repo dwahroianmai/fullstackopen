@@ -7,6 +7,7 @@ const App = () => {
   const [instruction, setInstruction] = useState("Please, start typing...");
   const [countries, setCountries] = useState([]);
   const [filtered, setFiltered] = useState([]);
+  const [component, setComponent] = useState(null);
 
   useEffect(() => {
     axios
@@ -18,6 +19,7 @@ const App = () => {
   }, []);
 
   const handleSearch = (e) => {
+    setComponent(null);
     let countryNow = e.target.value;
     setCountry(countryNow);
     let found = countries.filter((c) =>
@@ -38,13 +40,17 @@ const App = () => {
       <h1>Find countries</h1>
       <input type="text" value={country} onChange={handleSearch}></input>
       <p>{instruction}</p>
-      <div>
-        {filtered.length > 10 ? null : filtered.length === 1 ? (
-          <Country info={filtered[0]} />
-        ) : (
-          filtered.map((c) => <h2 key={c["ccn3"]}>{c["name"]["common"]}</h2>)
-        )}
-      </div>
+      {component}
+      {filtered.length > 10
+        ? null
+        : filtered.map((c) => (
+            <>
+              <h2 key={c["ccn3"]}>{c["name"]["common"]}</h2>
+              <button onClick={() => setComponent(<Country info={c} />)}>
+                Show more
+              </button>
+            </>
+          ))}
     </div>
   );
 };

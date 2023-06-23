@@ -1,3 +1,5 @@
+import "../styles.css";
+
 const Country = ({ info }) => {
   return (
     <div>
