@@ -8,9 +8,7 @@ import axios from "axios";
 import "./styles.css";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Alexa Tomilov", number: "+71231234565", id: "Alexa Tomilov" },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
@@ -56,7 +54,7 @@ const App = () => {
         ) {
           contact.id = persons[i].id;
           axios
-            .put(`http://localhost:3001/persons/${persons[i].id}`, contact)
+            .put(`http://localhost:3001/api/persons/${persons[i].id}`, contact)
             .then((response) => {
               setPersons(
                 persons.map((person) =>
@@ -100,7 +98,7 @@ const App = () => {
   const removePerson = (name, id) => {
     if (window.confirm(`Delete ${name} from phonebook?`)) {
       axios
-        .delete(`http://localhost:3001/persons/${id}`)
+        .delete(`http://localhost:3001/api/persons/${id}`)
         .then(() => setPersons(persons.filter((person) => person.id !== id)));
     }
     setAddedNotify(`${name} was deleted from your phonebook.`);
