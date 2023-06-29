@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/api/persons";
+const baseUrl = "https://phonebook-fso-boxj.onrender.com/api/persons";
 
 const getContacts = () => {
   const request = axios.get(baseUrl);
