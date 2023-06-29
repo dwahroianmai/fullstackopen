@@ -54,10 +54,7 @@ const App = () => {
         ) {
           contact.id = persons[i].id;
           axios
-            .put(
-              `https://phonebook-fso-boxj.onrender.com/api/persons/${persons[i].id}`,
-              contact
-            )
+            .put(`/api/persons/${persons[i].id}`, contact)
             .then((response) => {
               setPersons(
                 persons.map((person) =>
@@ -101,7 +98,7 @@ const App = () => {
   const removePerson = (name, id) => {
     if (window.confirm(`Delete ${name} from phonebook?`)) {
       axios
-        .delete(`https://phonebook-fso-boxj.onrender.com/api/persons/${id}`)
+        .delete(`/api/persons/${id}`)
         .then(() => setPersons(persons.filter((person) => person.id !== id)));
     }
     setAddedNotify(`${name} was deleted from your phonebook.`);
