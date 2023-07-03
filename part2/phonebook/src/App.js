@@ -42,7 +42,6 @@ const App = () => {
     const contact = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     };
 
     for (let i = 0; i < persons.length; i++) {
@@ -69,6 +68,7 @@ const App = () => {
               }, 5000);
             })
             .catch(() => {
+              console.log(error);
               setError(
                 `${contact.name} was already removed from your phonebook, please refresh the page.`
               );
