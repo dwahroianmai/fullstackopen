@@ -9,9 +9,7 @@ const getContacts = () => {
 
 const newContact = (contact) => {
   const request = axios.post(baseUrl, contact);
-  return request
-    .then((response) => response.data)
-    .catch((error) => console.log(error));
+  return request.then((response) => response.data);
 };
 
 const deletePerson = (id) => {

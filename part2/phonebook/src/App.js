@@ -67,7 +67,7 @@ const App = () => {
                 setAddedNotify(null);
               }, 5000);
             })
-            .catch(() => {
+            .catch((error) => {
               console.log(error);
               setError(
                 `${contact.name} was already removed from your phonebook, please refresh the page.`
@@ -85,7 +85,8 @@ const App = () => {
 
     services
       .newContact(contact)
-      .then((person) => setPersons(persons.concat(person)));
+      .then((person) => setPersons(persons.concat(person)))
+      .catch((error) => setError(error.response.data.error));
 
     setAddedNotify(`${contact.name} was added to the phonebook.`);
     setTimeout(() => {
