@@ -14,6 +14,7 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [addedNotify, setAddedNotify] = useState(null);
   const [error, setError] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     services.getContacts().then((people) => setPersons(people));
@@ -86,9 +87,15 @@ const App = () => {
     services
       .newContact(contact)
       .then((person) => setPersons(persons.concat(person)))
-      .catch((error) => setError(error.response.data.error));
-
-    setAddedNotify(`${contact.name} was added to the phonebook.`);
+      .catch((error) => {
+        setError(error.response.data.error);
+        setLoaded(true);
+      });
+    if (loaded) {
+      setAddedNotify(
+        error ? null : `${contact.name} was added to the phonebook.`
+      );
+    }
     setTimeout(() => {
       setAddedNotify(null);
     }, 5000);
