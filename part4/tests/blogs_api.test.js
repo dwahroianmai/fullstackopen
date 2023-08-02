@@ -15,7 +15,7 @@ const initialBlogs = [
   },
   {
     title: "second blog",
-    author: "me againt",
+    author: "me again",
     url: "http://localhost:125/second_post",
     likes: 1,
   },
@@ -23,10 +23,11 @@ const initialBlogs = [
 
 beforeEach(async () => {
   await Blog.deleteMany({});
-  let blogObject = new Blog(initialBlogs[0]);
-  await blogObject.save();
-  blogObject = new Blog(initialBlogs[0]);
-  await blogObject.save();
+
+  for (let blog of initialBlogs) {
+    let blogObject = new Blog(blog);
+    await blogObject.save();
+  }
 }, 20000);
 
 test("there is one blog", async () => {
@@ -47,6 +48,26 @@ test("unique identifier of the blog posts is named id", async () => {
 
   expect(response.body[0]["id"]).toBeDefined();
   expect(response.body[1]["id"]).toBeDefined();
+});
+
+test("http post request successfully creates a new blog", async () => {
+  const newBlog = {
+    title: "test blog",
+    author: "test author",
+    url: "http://localhost:1050/test_blog",
+    likes: 1050,
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAtEnd = await Blog.find({});
+  expect(blogsAtEnd).toHaveLength(initialBlogs.length + 1);
+  const titles = blogsAtEnd.map((blog) => blog.title);
+  expect(titles).toContain("test blog");
 });
 
 afterAll(async () => {
